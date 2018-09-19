@@ -1,4 +1,5 @@
 include RSpec
+require "pry"
 
 require_relative 'node'
 require_relative 'open_addressing'
@@ -47,6 +48,7 @@ RSpec.describe OpenAddressing, type: Class do
     end
 
     it "sets the value of key to value" do
+      # binding.pry
       expect(star_wars_movies["Star Wars: The Phantom Menace"]).to eq "Number One"
       expect(star_wars_movies["Star Wars: Attack of the Clones"]).to eq "Number Two"
       expect(star_wars_movies["Star Wars: Revenge of the Sith"]).to eq "Number Three"
@@ -61,6 +63,11 @@ RSpec.describe OpenAddressing, type: Class do
       inception = OpenAddressing.new(1)
       inception["The Original"] = "The Best Movie Ever"
       expect(inception.next_open_index(0)).to eq -1
+    end
+    it "returns 1 for an open indice" do
+      inception = OpenAddressing.new(2)
+      inception["The Original"] = "The Best Movie Ever"
+      expect(inception.next_open_index(0)).to eq 1
     end
 
   end

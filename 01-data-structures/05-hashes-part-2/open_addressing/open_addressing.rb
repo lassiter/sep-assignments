@@ -23,6 +23,12 @@ class OpenAddressing
       elsif @items[next_open_index(inital_index)].nil?
         open_index = next_open_index(inital_index)
         return @items[open_index] = node
+      else
+        while @items[index(key,@size)] != nil
+          resize
+          return @items[index(key,@size)] = node if @items[index(key,@size)].nil?
+          return @items[next_open_index(index(key,@size))] = node if @items[next_open_index(index(key,@size))].nil?
+        end
       end
     end
   end

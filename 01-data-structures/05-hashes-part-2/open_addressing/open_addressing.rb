@@ -6,40 +6,30 @@ class OpenAddressing
     @size = size
   end
 
+  # Places Key Value pair at an index.
   def []=(key, value)
-    # Inital method values
-    # puts """
-    
-    # Key #{key}
-    # Value #{value}
-
-    # """
     inital_index = index(key,@size)
     node = Node.new(key, value)
+    # Immediate Placement of Key Pair
     if @items[inital_index].nil?
       @items[inital_index] = node
-      # puts @items[inital_index].inspect
+    elsif @items[next_open_index(inital_index)].nil?
+      open_index = next_open_index(inital_index)
+      return @items[open_index] = node
     else
-      i = inital_index
-      while !@items[i].nil? && i < @size
-        @items[i] = node if @items[i].nil?
-        i+=1
-        if i == @size
-          resize
-          if @items[inital_index].nil?
-            return @items[inital_index] = node
-          else
-            open_index = next_open_index(inital_index)
-            return @items[open_index] = node
-          end
-        end
+      resize
+      if @items[inital_index].nil?
+        return @items[inital_index] = node
+      elsif @items[next_open_index(inital_index)].nil?
+        open_index = next_open_index(inital_index)
+        return @items[open_index] = node
       end
     end
   end
 
+  # Returns value that matches key.
   def [](key)
     expected_index = index(key,@size)
-
     # Expected Index Matches Key
     if @items[expected_index].key == key
       return @items[expected_index].value
@@ -52,12 +42,8 @@ class OpenAddressing
         end
         i += 1
       end
-      return "Not Found"
-    else
-      if @items[expected_index].key == key
-        return @items[expected_index].value
-      end
     end
+    return "Not Found"
   end
 
   # Returns a unique, deterministically reproducible index into an array

@@ -10,6 +10,15 @@
  - Describe three collision resolution strategies not mentioned here.
  - Create your own collision resolution strategy and describe how it works.
 
+### HashClass print out
+Print: Star Wars: The Empire Strikes Back => Number Five
+Print: Star Wars: Attack of the Clones => Number Two
+Print: Star Wars: Return of the Jedi => Number Six
+Print: Star Wars: A New Hope => Number Four
+Print: Star Wars: The Phantom Menace => Number One
+Print: Star Wars: Revenge of the Sith => Number Three
+Load Factor: 0.5
+
 ### Describe three collision resolution strategies
 
 1. 2-choice hashing

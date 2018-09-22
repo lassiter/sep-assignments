@@ -93,4 +93,17 @@ RSpec.describe SeparateChaining, type: Class do
       expect(movies["Return of the Jedi"]).to eq "The Best"
     end
   end
+  describe '#print_all_hashes' do
+    it 'prints all of the hashes' do
+      movies = SeparateChaining.new(6)
+      movies["Star Wars: The Phantom Menace"] = "Number One"
+      movies["Star Wars: Attack of the Clones"] = "Number Two"
+      movies["Star Wars: Revenge of the Sith"] = "Number Three"
+      movies["Star Wars: A New Hope"] = "Number Four"
+      movies["Star Wars: The Empire Strikes Back"] = "Number Five"
+      movies["Star Wars: Return of the Jedi"] = "Number Six"
+      expect { movies.print_all_hashes }.to output.to_stdout
+      movies.print_all_hashes
+    end
+  end
 end

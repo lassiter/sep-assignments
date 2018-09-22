@@ -20,7 +20,7 @@ RSpec.describe MinBinaryHeap, type: Class do
   let (:mad_max_2) { Node.new("Mad Max 2: The Road Warrior", 98) }
 
   # Assumptions:
-  # 1. The left node and right node should be less than tree.root.
+  # 1. The left node and right node should be more than tree.root.
   # 2. The left node should be less than the right node.
   # 3. The default placement is from left to right.
   # Root 87

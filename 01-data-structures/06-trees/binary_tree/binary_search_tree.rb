@@ -1,5 +1,4 @@
 require_relative 'node'
-require "pry"
 
 class BinarySearchTree
 
@@ -9,24 +8,25 @@ class BinarySearchTree
 
   # Find empty leaf
   def insert(root, node)
-    # If less than root left
-    if node.rating < root.rating
-      # If a leaf is available insert
-      if root.left.nil?
-        root.left = node
-      # Recursively call insert if false
-      else
-        insert(root.left, node)
-      end
-    # If greater than or equal right
-    else
-      # If a leaf is available insert
+    return root if root.rating === node.rating
+    # Less than root
+    if root.rating > node.rating
       if root.right.nil?
         root.right = node
-      # Recursively call insert if false
+        root.right.parent = root
       else
         insert(root.right, node)
       end
+    # Greater than root
+    elsif root.rating < node.rating
+      if root.left.nil?
+        root.left = node
+        root.left.parent = root
+      else
+        insert(root.left, node)
+      end
+    else
+      return "error, duplicate"
     end
   end
 
@@ -35,20 +35,36 @@ class BinarySearchTree
     return nil if data === nil
     return root if root.title === data
 
-    if root.left != nil
-      if root.left === data
-        return root.left
-      else
-        find(root.left, data)
-      end
-    elsif root.right != nil
-      if root.right === data
-        return root.left
-      else
-        find(root.right, data)
-      end
+    left = find(root.left, data) if root.left != nil
+    right = find(root.right, data) if root.right != nil
+
+    if left != nil
+      return left
+    elsif right != nil
+      return right
+    else
+      return nil
     end
   end
+
+  # def find_next_slot(root, data)
+  #   return nil if data === nil
+  #   return root if root.title === data
+    
+  #   if root.left.nil?
+  #     binding.pry
+  #     return root.left
+  #   elsif root.right.nil?
+  #     return root.right
+  #   else
+  #     if object_has_children_slots(root.left)
+  #       find_next_slot(root.left, data)
+  #     else
+  #       find_next_slot(root.right, data)
+  #     end
+  #   end
+
+  # end
 
   def delete(root, data)
     return nil if data === nil
@@ -81,5 +97,10 @@ class BinarySearchTree
     # Return Output
     puts output.join("\n")
     output = []
+  end
+
+  def object_has_children_slots(node)
+    return true if node.left.nil? || node.right.nil?
+    return false
   end
 end

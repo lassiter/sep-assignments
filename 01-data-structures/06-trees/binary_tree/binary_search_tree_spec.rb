@@ -20,37 +20,41 @@ RSpec.describe BinarySearchTree, type: Class do
 
   describe "#insert(data)" do
     it "properly inserts a new node as a left child" do
-      tree.insert(root, pacific_rim)
-      expect(root.left.title).to eq "Pacific Rim"
-    end
-
-    it "properly inserts a new node as a left-left child" do
-      tree.insert(root, braveheart)
-      tree.insert(root, pacific_rim)
-      expect(root.left.left.title).to eq "Pacific Rim"
-    end
-
-    it "properly inserts a new node as a left-right child" do
-      tree.insert(root, donnie)
-      tree.insert(root, inception)
-      expect(root.left.right.title).to eq "Inception"
+      tree.insert(root, mad_max_2)
+      expect(root.left.title).to eq "Mad Max 2: The Road Warrior"
     end
 
     it "properly inserts a new node as a right child" do
-      tree.insert(root, district)
-      expect(root.right.title).to eq "District 9"
+      tree.insert(root, pacific_rim)
+      expect(root.right.title).to eq "Pacific Rim"
     end
 
     it "properly inserts a new node as a right-left child" do
-      tree.insert(root, hope)
-      tree.insert(root, martian)
-      expect(root.right.left.title).to eq "The Martian"
+      tree.insert(root, pacific_rim)
+      tree.insert(root, jedi)
+      expect(root.right.left.title).to eq "Star Wars: Return of the Jedi"
     end
 
-    it "properly inserts a new node as a right-right child" do
+    it "properly inserts a new node as a left-right child" do
+      tree.insert(root, martian)
+      tree.insert(root, shawshank)
+      expect(root.left.right.title).to eq "The Shawshank Redemption"
+    end
+
+    it "properly inserts a new node as a left-left child" do
+      tree.insert(root, inception)
+      tree.insert(root, shawshank)
+      tree.insert(root, martian)
+      expect(root.left.left.title).to eq "The Martian"
+    end
+
+    it "properly inserts a new node as a left-left-left-left child" do
+      tree.insert(root, shawshank)
+      tree.insert(root, inception)
+      tree.insert(root, martian)
       tree.insert(root, empire)
       tree.insert(root, mad_max_2)
-      expect(root.right.right.title).to eq "Mad Max 2: The Road Warrior"
+      expect(root.left.left.left.left.title).to eq "Mad Max 2: The Road Warrior"
     end
   end
 
@@ -144,7 +148,7 @@ RSpec.describe BinarySearchTree, type: Class do
 
   describe "#printf" do
      specify {
-       expected_output = "The Matrix: 87\nStar Wars: Return of the Jedi: 80\nStar Wars: A New Hope: 93\nPacific Rim: 72\nInception: 86\nThe Martian: 92\nStar Wars: The Empire Strikes Back: 94\nBraveheart: 78\nThe Shawshank Redemption: 91\nMad Max 2: The Road Warrior: 98\nDistrict 9: 90\n"
+       expected_output = "The Matrix: 87\nStar Wars: A New Hope: 93\nStar Wars: Return of the Jedi: 80\nStar Wars: The Empire Strikes Back: 94\nThe Martian: 92\nInception: 86\nPacific Rim: 72\nMad Max 2: The Road Warrior: 98\nThe Shawshank Redemption: 91\nBraveheart: 78\nDistrict 9: 90\n"
        tree.insert(root, hope)
        tree.insert(root, empire)
        tree.insert(root, jedi)
@@ -159,7 +163,7 @@ RSpec.describe BinarySearchTree, type: Class do
      }
 
      specify {
-       expected_output = "The Matrix: 87\nBraveheart: 78\nMad Max 2: The Road Warrior: 98\nPacific Rim: 72\nInception: 86\nDistrict 9: 90\nStar Wars: Return of the Jedi: 80\nThe Shawshank Redemption: 91\nThe Martian: 92\nStar Wars: The Empire Strikes Back: 94\nStar Wars: A New Hope: 93\n"
+       expected_output = "The Matrix: 87\nMad Max 2: The Road Warrior: 98\nBraveheart: 78\nDistrict 9: 90\nInception: 86\nPacific Rim: 72\nThe Shawshank Redemption: 91\nStar Wars: Return of the Jedi: 80\nThe Martian: 92\nStar Wars: The Empire Strikes Back: 94\nStar Wars: A New Hope: 93\n"
        tree.insert(root, mad_max_2)
        tree.insert(root, district)
        tree.insert(root, shawshank)

@@ -10,7 +10,10 @@ class Graph
 
   def initialize(data)
     @graph = graph
-    @stack = stack
+    # Manage Seen Films
+    @visited = []
+    # Manage Film Chain
+    @chain = []
     @data = data
     @max_depth = 6
   end
@@ -19,85 +22,37 @@ class Graph
   # Array of at most six film titles that connect it to the Kevin_Bacon Node.
   def find_kevin_bacon(actor_name_string)
     return nil if actor_name_string.nil? || actor_name_string === "nil"
-    actor_node = self.data.bsearch {|x| x.name === actor_name_string }
-
+    actor_node = self.data.find {|x| x.name === actor_name_string }
     # Find the Baconator
-    kevin_bacon = iterative_depth_search(actor_node)
-
-  end
-
-  # Iterative Depth Search
-  def iterative_depth_search(root)
-    for i in 0..@max_depth
-      found, remaining = depth_limited_search(root, i)
-      binding.pry if found
-      if !found.nil? && found.kind_of?(Node)
-        binding.pry
-        return found
-      elsif !remaining
-        return -1
-      end
-      puts i
-    end
+    kevin_bacon = bfs(actor_node, "Kevin Bacon", 0)
+    result = """
+      We found #{actor_name_string} -> Kevin Bacon via '#{@chain.join(' -> ')}'
+    """
+    puts result
     binding.pry
-    # node.film_actor_hash.keys.each do |film_title|
-    #   node.film_actor_hash[film_title].each do |child_node|
-    #     bacon_search(child_node)
-    #   end
-    # end
+    return kevin_bacon
   end
 
-  # Depth Limited Search
-  def depth_limited_search(node, depth)
-    if depth <= @max_depth
-      [nil, false]
-    end
-    if depth === 0
-      if node.name === "Kevin Bacon"
-        result = [node, true]
-        return result
-      elsif node.film_actor_hash.any?
-        result = [nil, true]
-        return result
-      else
-        result = [nil, false]
-        return result
-      end
-    elsif depth > 0 && depth <= @max_depth
-      node.film_actor_hash.keys.each do |film_title|
-        node.film_actor_hash[film_title].each do |child_node|
-          # If node child is Kevin Bacon, return the bacon;
-          # Else go one level deeper.
-          if child_node.name === "Kevin Bacon"
-            result = [child_node, true]
-            return result
-          elsif depth <= @max_depth
-            found, remaining = depth_limited_search(child_node, depth + 1)
-            result = [found, remaining]
-            return result
-          else
-            result = [nil, false]
-            return result
+  # breadth first search
+  def bfs(node, search_key, depth)
+    return nil if node === nil || search_key === nil || depth === nil
+    return node if node.name === search_key
+    return nil if @max_depth < depth
+    node.film_actor_hash.each do |film, actor_node|
+      if !@visited.include?(film)
+        actor_node.each do |n|
+          if n.visited === false
+            n.visited = true
+            @chain << film if n.name === search_key
+            return n if n.name === search_key
+            bfs(n, search_key ,depth + 1) if n.name != search_key
           end
-        end # child_node loop
-      end # film_title loop
-    else
-      result = [nil, true]
-      return result
+        end
+        @visited << film
+      end
     end
   end
-
 end
-
-      #  any_remaining ← false
-      #  foreach child of node
-      #      found, remaining ← DLS(child, depth−1)
-      #      if found ≠ null
-      #          return (found, true)   
-      #      if remaining
-      #          any_remaining ← true    (At least one node found at depth, let IDDFS deepen)
-      #  return (null, any_remaining)
-
 
 # Helper Class to handle converting csv files to nodes
 # and their respective film_actor_hashes

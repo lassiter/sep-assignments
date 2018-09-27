@@ -28,6 +28,7 @@ RSpec.describe Graph, type: Class do
     it 'in 2 degrees' do
       # via Laurence Fishburne
       subject = graph.find_kevin_bacon("Keanu Reeves")
+        binding.pry
       expect(subject.name).to eq("Kevin Bacon")
     end
 

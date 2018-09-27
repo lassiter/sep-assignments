@@ -4,7 +4,7 @@ require_relative 'node'
 require_relative 'graph'
 
 RSpec.describe Graph, type: Class do
-  let(:warehouse) { Warehouse.new("data.csv") }
+  let(:warehouse) { Warehouse.new("data2.csv") }
   let(:graph) { Graph.new(warehouse.data) }
 
   describe 'should be able to find Kevin Bacon' do
@@ -22,6 +22,7 @@ RSpec.describe Graph, type: Class do
       # via Castmate Tom Hanks in Apollo 13
       subject = graph.find_kevin_bacon("Tom Hanks")
       binding.pry
+      
       expect(subject.name).to eq("Kevin Bacon")
     end
 
@@ -29,19 +30,18 @@ RSpec.describe Graph, type: Class do
       # via Laurence Fishburne
       subject = graph.find_kevin_bacon("Keanu Reeves")
         binding.pry
+      # "We found Keanu Reeves -> Kevin Bacon via 'Matrix, The -> Mystic River'"
       expect(subject.name).to eq("Kevin Bacon")
     end
 
     it 'in 3 degrees' do
       # via Tom Bower -> Marcia Gay Harden
-      subject = graph.find_kevin_bacon("Anna Felix")
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Anna Felix")).to eq("We found Anna Felix -> Kevin Bacon via 'Crazy Heart -> Pollock -> Apollo 13'")
     end
 
     it 'in 4 degrees' do
       # via Jeff Bridges -> Tom Bower -> Marcia Gay Harden
-      subject = graph.find_kevin_bacon("Leslie Bibb")
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Leslie Bibb")).to eq("We found Leslie Bibb -> Kevin Bacon via 'Iron Man -> Crazy Heart -> Pollock -> Apollo 13'")
     end
 
     it 'in 5 degrees' do

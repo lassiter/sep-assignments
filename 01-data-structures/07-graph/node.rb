@@ -7,7 +7,6 @@ class Node
   def initialize(name, film_actor_hash)
     @name = name
     @film_actor_hash = film_actor_hash
-    @visited = false
   end
 
 end

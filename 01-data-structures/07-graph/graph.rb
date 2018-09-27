@@ -11,7 +11,8 @@ class Graph
   def initialize(data)
     @graph = graph
     # Manage Seen Films
-    @visited = []
+    @visited_films = []
+    @visited_actors = []
     # Manage Film Chain
     @chain = []
     @data = data
@@ -25,30 +26,31 @@ class Graph
     actor_node = self.data.find {|x| x.name === actor_name_string }
     # Find the Baconator
     kevin_bacon = bfs(actor_node, "Kevin Bacon", 0)
-    result = """
-      We found #{actor_name_string} -> Kevin Bacon via '#{@chain.join(' -> ')}'
-    """
+    result = "We found #{actor_name_string} -> Kevin Bacon via '#{@chain.join(' -> ')}'"
     puts result
-    binding.pry
-    return kevin_bacon
+    return result
   end
 
   # breadth first search
   def bfs(node, search_key, depth)
     return nil if node === nil || search_key === nil || depth === nil
+    binding.pry if node.name === search_key
     return node if node.name === search_key
     return nil if @max_depth < depth
     node.film_actor_hash.each do |film, actor_node|
-      if !@visited.include?(film)
+      break if @visited_actors.include?(search_key)
+      if !@visited_films.include?(film)
         actor_node.each do |n|
-          if n.visited === false
-            n.visited = true
-            @chain << film if n.name === search_key
+          break if @visited_actors.include?(search_key)
+          if !@visited_actors.include?(n.name)
+            @visited_actors << n.name
+            @chain << film if !@visited_films.include?(film)
+            @visited_films << film if !@visited_films.include?(film)
+            binding.pry if n.name === search_key
             return n if n.name === search_key
-            bfs(n, search_key ,depth + 1) if n.name != search_key
+            bfs(n, search_key, depth + 1) if n.name != search_key
           end
         end
-        @visited << film
       end
     end
   end

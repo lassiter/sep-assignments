@@ -4,7 +4,7 @@ require_relative 'node'
 require_relative 'graph'
 
 RSpec.describe Graph, type: Class do
-  let(:warehouse) { Warehouse.new("data2.csv") }
+  let(:warehouse) { Warehouse.new("data.csv") }
   let(:graph) { Graph.new(warehouse.data) }
 
   describe 'should be able to find Kevin Bacon' do
@@ -14,24 +14,17 @@ RSpec.describe Graph, type: Class do
     end
 
     it 'should handle unknown strings' do
-      subject = graph.find_kevin_bacon("foo bar")
-      expect(subject).to be nil
+      expect(graph.find_kevin_bacon("foo bar")).to eq("We didn't find foo bar as a name in our data.")
     end
 
     it 'in 1 degree' do
-      # via Castmate Tom Hanks in Apollo 13
-      subject = graph.find_kevin_bacon("Tom Hanks")
-      binding.pry
-      
-      expect(subject.name).to eq("Kevin Bacon")
+      # Co-stars in Mystic River
+      expect(graph.find_kevin_bacon("Laurence Fishburne")).to eq("We found Laurence Fishburne -> Kevin Bacon via 'Mystic River'")
     end
 
     it 'in 2 degrees' do
       # via Laurence Fishburne
-      subject = graph.find_kevin_bacon("Keanu Reeves")
-        binding.pry
-      # "We found Keanu Reeves -> Kevin Bacon via 'Matrix, The -> Mystic River'"
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Keanu Reeves")).to eq("We found Keanu Reeves -> Kevin Bacon via 'Matrix, The -> Mystic River'")
     end
 
     it 'in 3 degrees' do
@@ -46,14 +39,12 @@ RSpec.describe Graph, type: Class do
 
     it 'in 5 degrees' do
       # via Amy Adams -> Robin Williams -> Matt Damon -> Tom Hanks
-      subject = graph.find_kevin_bacon("Christian Bale")
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Christian Bale")).to eq("We found Christian Bale -> Kevin Bacon via 'The Fighter -> Night at the Museum: Battle of the Smithsonian -> Good Will Hunting -> Saving Private Ryan -> Apollo 13'")
     end
 
     it 'in 6 degrees' do
       # via Christian Bale -> Amy Adams -> Robin Williams -> Matt Damon -> Tom Hanks
-      subject = graph.find_kevin_bacon("Gary Oldman")
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Gary Oldman")).to eq("We found Gary Oldman -> Kevin Bacon via 'The Dark Knight Rises -> The Fighter -> Night at the Museum: Battle of the Smithsonian -> Good Will Hunting -> Saving Private Ryan -> Apollo 13'")
     end
 
   end
@@ -61,8 +52,11 @@ RSpec.describe Graph, type: Class do
     
     it 'in 7 degrees' do
       # via Gary Oldman -> Christian Bale -> Amy Adams -> Robin Williams -> Matt Damon -> Tom Hanks
-      subject = graph.find_kevin_bacon("Giancarlo Giannini")
-      expect(subject.name).to eq("Kevin Bacon")
+      expect(graph.find_kevin_bacon("Giancarlo Giannini")).to eq("We found Giancarlo Giannini -> Kevin Bacon, but apparently Kevin's world is larger than 6 degrees.")
+    end
+
+    it 'if there is no connection' do
+      expect(graph.find_kevin_bacon("Gillian Anderson")).to eq("We found Gillian Anderson but we didn't find a connection to Kevin Bacon.")
     end
 
   end

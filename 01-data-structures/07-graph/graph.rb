@@ -24,9 +24,16 @@ class Graph
   def find_kevin_bacon(actor_name_string)
     return nil if actor_name_string.nil? || actor_name_string === "nil"
     actor_node = self.data.find {|x| x.name === actor_name_string }
+    return "We didn't find #{actor_name_string} as a name in our data." if actor_node.nil?
     # Find the Baconator
-    kevin_bacon = bfs(actor_node, "Kevin Bacon", 0)
-    result = "We found #{actor_name_string} -> Kevin Bacon via '#{@chain.join(' -> ')}'"
+    bfs(actor_node, "Kevin Bacon", 0)
+    if @chain.length > 0 && @chain.length <= 6
+      result = "We found #{actor_name_string} -> Kevin Bacon via '#{@chain.join(' -> ')}'"
+    elsif @chain.length >= 7
+      result = "We found #{actor_name_string} -> Kevin Bacon, but apparently Kevin's world is larger than 6 degrees."
+    else
+      result = "We found #{actor_name_string} but we didn't find a connection to Kevin Bacon."
+    end
     puts result
     return result
   end
@@ -46,7 +53,6 @@ class Graph
             @visited_actors << n.name
             @chain << film if !@visited_films.include?(film)
             @visited_films << film if !@visited_films.include?(film)
-            binding.pry if n.name === search_key
             return n if n.name === search_key
             bfs(n, search_key, depth + 1) if n.name != search_key
           end

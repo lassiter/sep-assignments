@@ -41,7 +41,6 @@ class Graph
   # breadth first search
   def bfs(node, search_key, depth)
     return nil if node === nil || search_key === nil || depth === nil
-    binding.pry if node.name === search_key
     return node if node.name === search_key
     return nil if @max_depth < depth
     node.film_actor_hash.each do |film, actor_node|

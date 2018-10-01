@@ -1,3 +1,4 @@
+require "pry"
   def bucket_sort(array)
     return array if array.length <= 1
     buckets = Array.new((array.max/10)+1)
@@ -11,7 +12,8 @@
     end
 
     buckets.each do |bucket|
-      bucket.sort!
+      next if bucket === nil || bucket.size === 1
+      bucket = bucket.sort
     end
     return buckets.flatten
   end

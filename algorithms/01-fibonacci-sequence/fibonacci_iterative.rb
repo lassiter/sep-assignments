@@ -1,19 +1,18 @@
 
-  def fib(n)
+	def fib(n)
 		if n <= 1
-      return n
-    end
+			return n
+		end
 		fib = 1
 		prevFib = 1
-    
-    for i in 2..n
-      temp = fib
-      fib+= prevFib
-      prevFib = temp
-    end
+		for i in 2..n
+			temp = fib
+			fib+= prevFib
+			prevFib = temp
+		end
 
-    return fib
-  end
+		return fib
+	end
 
   puts fib(0)
   puts fib(1)

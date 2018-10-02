@@ -1,5 +1,5 @@
 
-  def fib(n)
+	def fib(n)
 		if n <= 1
       return n
     elsif n == 2
@@ -14,8 +14,8 @@
       prevFib = temp
     end
 
-    return fib
-  end
+		return fib
+	end
 
   puts fib(0)
   puts fib(1)

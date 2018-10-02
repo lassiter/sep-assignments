@@ -13,7 +13,6 @@
       fib+= prevFib
       prevFib = temp
     end
-
 		return fib
 	end
 

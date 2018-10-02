@@ -2,11 +2,13 @@
   def fib(n)
 		if n <= 1
       return n
+    elsif n == 2
+      return 1
     end
 		fib = 1
 		prevFib = 1
     
-    for i in 2..n
+    for i in 3..n
       temp = fib
       fib+= prevFib
       prevFib = temp

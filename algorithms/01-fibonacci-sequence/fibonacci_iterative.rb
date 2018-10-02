@@ -1,6 +1,7 @@
 
-  def fib(n)
+	def fib(n)
 		if n <= 1
+<<<<<<< HEAD
       return n
     elsif n == 2
       return 1
@@ -13,9 +14,20 @@
       fib+= prevFib
       prevFib = temp
     end
+=======
+			return n
+		end
+		fib = 1
+		prevFib = 1
+		for i in 2..n
+			temp = fib
+			fib+= prevFib
+			prevFib = temp
+		end
+>>>>>>> 9348cd469855a9dd8937b3c4486473a945a03216
 
-    return fib
-  end
+		return fib
+	end
 
   puts fib(0)
   puts fib(1)

@@ -47,7 +47,8 @@ O(2^n)
 
 ```ruby
   def worst_case_of(n)
-    return 2**n
+    p "X | Y"
+    1.upto(n) {|i| p "#{i} | #{i}"}
   end
 ```
 9. Create a graph from the output using Google Sheets or other graphing software. Analyze the graph and denote its Big-O somewhere on the graph.
@@ -55,10 +56,10 @@ O(2^n)
 Please see the graph.pdf file.
 
 10. What is the Big-O of binary search?
-O(1) being the upper bound
+O(log n) being the upper bound
 
 11. What is the Big-Ω of binary search?
-O(log n) being the lower bound
+O(1) being the lower bound
 
 12. What is the Big-Ө of binary search?
 O(log n) being the mix

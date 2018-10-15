@@ -13,7 +13,7 @@ require "pry"
 
     buckets.each do |bucket|
       next if bucket === nil || bucket.size === 1
-      bucket = bucket.sort
+      bucket.sort!
     end
     return buckets.flatten
   end

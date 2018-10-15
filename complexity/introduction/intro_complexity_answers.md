@@ -53,7 +53,7 @@ O(2^n)
 ```
 9. Create a graph from the output using Google Sheets or other graphing software. Analyze the graph and denote its Big-O somewhere on the graph.
 
-Please see the graph.pdf file.
+Please see the graph2.pdf file.
 
 10. What is the Big-O of binary search?
 O(log n) being the upper bound

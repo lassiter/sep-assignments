@@ -1,7 +1,6 @@
 require 'rubygems'
 gem 'faker'
 require "faker"
-require "pry"
 
 class City
   attr_accessor :name
@@ -18,10 +17,6 @@ class City
     self.visited = false
   end
 
-  def to_s
-    "#{self.x}, #{self.y}"
-  end
-
 end
 
 class Map
@@ -30,13 +25,7 @@ class Map
   def initialize(starting_city)
     a = [starting_city].concat Array.new(rand(9..15)) {|item| item = City.new }
     @cities = a.each do |city|
-      while city.neighbors.count <= (a.length/3)
-        new_neighbor = a.sample
-        unless city.neighbors.include?(new_neighbor) || city.name === new_neighbor.name
-          new_neighbor.neighbors << city
-          city.neighbors << new_neighbor
-        end
-      end
+      city.neighbors = a - [city]
     end
   end
 end
@@ -53,23 +42,18 @@ class Tour
     @map = Map.new(starting_city)
     @current_city = self.map.cities.first
     @itinerary = [self.current_city]
-    p "starting in #{self.current_city.name} with #{self.map.cities.count} cities"
   end
 
   def create_itinerary
     while !self.map.cities.all? { |city| city.visited === true}
       next_city = nearest_possible_neighbor(self.current_city)
-        p "currently in #{self.current_city.name}"
         if next_city.visited === false
           next_city.visited = true
           self.itinerary << next_city
           self.current_city = next_city
         end
     end
-    # while self.map.cities.count != self.itinerary.count
-    # end
-    puts "Just finished trip itinerary with #{self.itinerary.count} cities"
-    self.itinerary.each {|i| puts i.name}
+    return self.itinerary
   end
 
   def nearest_possible_neighbor(current_city)
@@ -93,6 +77,3 @@ class Tour
   end
 
 end
-
-
-t = Tour.new(City.new).create_itinerary
